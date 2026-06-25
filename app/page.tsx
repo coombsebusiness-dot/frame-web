@@ -18,9 +18,9 @@ export default function Home() {
 
           <div className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
             <a href="#" className="hover:text-white">Home</a>
-            <a href="#" className="hover:text-white">Explore</a>
-            <a href="#" className="hover:text-white">About</a>
-            <a href="#" className="hover:text-white">Login</a>
+            <a href="/explore" className="hover:text-white">Explore</a>
+<a href="#why-frame" className="hover:text-white">About</a>
+<a href="/login" className="hover:text-white">Login</a>
           </div>
 
           <a
@@ -61,15 +61,15 @@ export default function Home() {
             Download on the App Store
           </a>
 
-          <a
-            href="#"
-            className="rounded-full border border-white/20 px-8 py-4 text-base font-semibold text-white"
-          >
-            Explore Frame
-          </a>
+         <a
+  href="/explore"
+  className="rounded-full border border-white/20 px-8 py-4 text-base font-semibold text-white"
+>
+  Explore Frame
+</a>
         </div>
       </section>
-      <section className="mx-auto max-w-6xl px-6 py-24">
+      <section id="why-frame" className="mx-auto max-w-6xl px-6 py-24">
   <div className="mb-12 text-center">
     <p className="text-sm font-semibold uppercase tracking-[0.35em] text-zinc-400">
       Frame In Action
@@ -133,7 +133,7 @@ export default function Home() {
 />
   </div>
 </section>
-<section className="mx-auto max-w-6xl px-6 py-24">
+<section id="why-frame" className="mx-auto max-w-6xl px-6 py-24">
   <div className="mb-12 text-center">
     <p className="text-sm font-semibold uppercase tracking-[0.35em] text-zinc-400">
       Why Frame?
