@@ -68,7 +68,7 @@ export default function RootLayout({
 
     gtag('config', 'AW-18275620443');
   `}
-</Script>{children}</body>
+</Script><meta name="google-site-verification" content="KiLTgCkOd0eNC-ulD_qqpGr6kqpyLNcf2apx4UKM85U" />{children}</body>
     </html>
   );
 }
