@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white">
+   <main className="min-h-screen bg-black text-white">
+  <Navbar />
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
