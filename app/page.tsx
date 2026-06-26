@@ -1,10 +1,8 @@
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
-
+import Link from 'next/link';
 export default function Home() {
   return (
-   <main className="min-h-screen bg-black text-white">
-  <Navbar />
+    <main className="min-h-screen bg-black text-white">
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
@@ -205,11 +203,29 @@ export default function Home() {
   <div className="mx-auto flex max-w-6xl flex-col gap-4 text-sm text-zinc-500 md:flex-row md:items-center md:justify-between">
     <p>© 2026 Frame Creative Network</p>
 
-    <div className="flex gap-6">
-      <a href="#" className="hover:text-white">Privacy Policy</a>
-      <a href="#" className="hover:text-white">Terms</a>
-      <a href="#" className="hover:text-white">Support</a>
-    </div>
+   <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-zinc-500">
+  <Link href="/privacy" className="hover:text-white">
+    Privacy
+  </Link>
+  <Link href="/terms" className="hover:text-white">
+    Terms
+  </Link>
+  <Link href="/eula" className="hover:text-white">
+    EULA
+  </Link>
+  <Link href="/child-safety" className="hover:text-white">
+    Child Safety
+  </Link>
+  <Link href="/contact" className="hover:text-white">
+    Contact
+  </Link>
+  <Link href="/delete-account" className="hover:text-white">
+    Delete Account
+  </Link>
+  <Link href="/change-email" className="hover:text-white">
+    Change Email
+  </Link>
+</div>
   </div>
 </footer>
     </main>
