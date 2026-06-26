@@ -1,46 +1,35 @@
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
 export const metadata: Metadata = {
-  title: "Frame - Creative Network",
+  title: 'Frame - Creative Network',
   description:
-    "Frame is a creative social network for photographers, artists, designers and visual creators. Share your work, discover inspiration and connect with creatives worldwide.",
-
-  keywords: [
-    "photography",
-    "photographer",
-    "creative network",
-    "artists",
-    "designers",
-    "creative community",
-    "photo sharing",
-    "stories",
-    "visual creators",
-    "frame app",
-  ],
-
-  metadataBase: new URL("https://frameapp.uk"),
-
-  openGraph: {
-    title: "Frame - Creative Network",
-    description:
-      "Share your work, discover inspiration and connect with creatives worldwide.",
-    url: "https://frameapp.uk",
-    siteName: "Frame",
-    images: [
-      {
-        url: "/frame-icon.png",
-        width: 1200,
-        height: 1200,
-        alt: "Frame Creative Network",
-      },
-    ],
-    locale: "en_GB",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Frame - Creative Network",
-    description:
-      "Share your work, discover inspiration and connect with creatives worldwide.",
-    images: ["/frame-icon.png"],
-  },
+    'Frame is a creative social network for photographers, artists, designers and visual creators.',
+  metadataBase: new URL('https://frameapp.uk'),
 };
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">{children}</body>
+    </html>
+  );
+}
