@@ -178,13 +178,12 @@ export default async function PostPage({ params }: PageProps) {
               <p className="text-sm text-zinc-500">
                 Discover more creative work inside Frame.
               </p>
-              <a
-  href={`https://www.facebook.com/sharer/sharer.php?u=https://frameapp.uk/post/${framePost.id}`}
-  target="_blank"
+            <Link
+  href={`/post/${framePost.id}`}
   className="mt-3 inline-flex w-full justify-center rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-white"
 >
   Share Post
-</a>
+</Link>
 
               <a
                 href="https://apps.apple.com/app/frame-creative-network/id6777236011"
