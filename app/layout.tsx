@@ -16,10 +16,41 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Frame - Creative Network',
   description:
-    'Frame is a creative social network for photographers, artists, designers and visual creators.',
+    'The creative network for photographers, artists and visual storytellers.',
   metadataBase: new URL('https://frameapp.uk'),
-};
 
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/frame-icon.png',
+  },
+
+  openGraph: {
+  title: 'Frame - Creative Network',
+  description:
+    'The creative network for photographers, artists and visual storytellers.',
+  url: 'https://frameapp.uk',
+  siteName: 'Frame',
+  images: [
+    {
+      url: '/og-image.png',
+      width: 1200,
+      height: 630,
+      alt: 'Frame Creative Network',
+    },
+  ],
+  locale: 'en_GB',
+  type: 'website',
+},
+
+twitter: {
+  card: 'summary_large_image',
+  title: 'Frame - Creative Network',
+  description:
+    'The creative network for photographers, artists and visual storytellers.',
+  images: ['/og-image.png'],
+},
+
+};
 export default function RootLayout({
   children,
 }: {

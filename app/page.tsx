@@ -23,12 +23,12 @@ export default function Home() {
 <a href="/login" className="hover:text-white">Login</a>
           </div>
 
-          <a
-            href="https://apps.apple.com/app/frame-creative-network/id6777236011"
-            className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black"
-          >
-            Download
-          </a>
+          <Link
+  href="/login"
+  className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black"
+>
+  Login
+</Link>
         </div>
       </nav>
 
