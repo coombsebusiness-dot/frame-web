@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SharePostButton from '../../../components/SharePostButton';
 import { supabase } from '../../../lib/supabase';
 import Navbar from '../../../components/Navbar';
 import type { Metadata } from 'next';
@@ -178,14 +179,7 @@ export default async function PostPage({ params }: PageProps) {
               <p className="text-sm text-zinc-500">
                 Discover more creative work inside Frame.
               </p>
-            <a
-  href={`https://api.whatsapp.com/send?text=https://frameapp.uk/post/${framePost.id}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="mt-3 inline-flex w-full justify-center rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-white"
->
-  Share Post
-</a>
+           <SharePostButton postId={framePost.id} caption={framePost.caption} />
 
               <a
                 href="https://apps.apple.com/app/frame-creative-network/id6777236011"
