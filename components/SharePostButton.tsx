@@ -11,20 +11,13 @@ export default function SharePostButton({
 }: SharePostButtonProps) {
   const handleShare = async () => {
     const postUrl = `https://frameapp.uk/post/${postId}`;
+    const shareText = `${caption || 'Check out this post on Frame'}\n\n${postUrl}`;
 
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'Frame Creative Network',
-          text: caption || 'Check out this post on Frame',
-          url: postUrl,
-        });
-      } else {
-        await navigator.clipboard.writeText(postUrl);
-        alert('Post link copied to clipboard');
-      }
+      await navigator.clipboard.writeText(shareText);
+      alert('Post link copied to clipboard');
     } catch (error) {
-      console.log('Share cancelled or failed:', error);
+      window.prompt('Copy this link:', postUrl);
     }
   };
 
