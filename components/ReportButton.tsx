@@ -8,9 +8,7 @@ type Props = {
 
 export default function ReportButton({ profileId }: Props) {
   async function reportUser() {
-    const reason = window.prompt(
-      'Why are you reporting this user?'
-    );
+    const reason = window.prompt('Why are you reporting this user?');
 
     if (!reason) return;
 
@@ -20,13 +18,13 @@ export default function ReportButton({ profileId }: Props) {
 
     if (!user) return;
 
-    const { error } = await supabase
-      .from('reports')
-      .insert({
-        reporter_id: user.id,
-        reported_user_id: profileId,
-        reason,
-      });
+    const { error } = await supabase.from('reports').insert({
+      reporter_id: user.id,
+      reported_user_id: profileId,
+      report_type: 'user',
+      reason,
+      status: 'open',
+    });
 
     if (error) {
       alert(error.message);

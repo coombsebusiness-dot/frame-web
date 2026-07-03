@@ -29,6 +29,8 @@ const deletedUserIds = (deletedConversations || []).map(
   (item) => item.other_user_id
 );
 
+
+
     const { data: messages } = await supabase
       .from('messages')
       .select('*')
@@ -72,6 +74,8 @@ const deletedUserIds = (deletedConversations || []).map(
 
       const profile = profiles?.find((p) => p.id === otherUserId);
 
+      
+
       return {
         ...message,
         otherUser: profile,
@@ -80,6 +84,7 @@ const deletedUserIds = (deletedConversations || []).map(
 
     setConversations(conversationsWithProfiles);
   }
+  
 
   return (
     <main className="min-h-screen bg-black text-white">

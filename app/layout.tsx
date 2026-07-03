@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://frameapp.uk'),
 
   title: 'Frame - Creative Network',
   description:

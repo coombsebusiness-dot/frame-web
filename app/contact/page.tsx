@@ -1,7 +1,7 @@
 'use client';
 
 import Navbar from '@/components/Navbar';
-import type { Metadata } from 'next';
+
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 

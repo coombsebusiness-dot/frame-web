@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { supabase } from '../../lib/supabase';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
+import FollowButton from '../../components/FollowButton';
 
 export default async function ExplorePage() {
   const { data: posts, error } = await supabase
@@ -95,6 +96,9 @@ const popularPosts = (allPosts ?? [])
               <p className="mt-1 text-xs text-zinc-500">
                 {creator.followers_count || 0} followers
               </p>
+              <div className="mt-3">
+  <FollowButton profileId={creator.id} />
+</div>
             </Link>
           ))}
         </div>

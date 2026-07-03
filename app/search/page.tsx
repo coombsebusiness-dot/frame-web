@@ -19,13 +19,35 @@ export default function SearchPage() {
 
     const { data } = await supabase
       .from('profiles')
-      .select('username, display_name, avatar_url, bio')
+     .select('id, username, display_name, avatar_url, bio')
       .or(
         `username.ilike.%${value}%,display_name.ilike.%${value}%`
       )
       .limit(20);
 
-    setUsers(data || []);
+    const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+if (!user) {
+  setUsers(data || []);
+  return;
+}
+
+const { data: blockedUsers } = await supabase
+  .from('blocked_users')
+  .select('blocked_id, blocker_id')
+  .or(`blocker_id.eq.${user.id},blocked_id.eq.${user.id}`);
+
+const blockedIds = (blockedUsers || []).map((block) =>
+  block.blocker_id === user.id ? block.blocked_id : block.blocker_id
+);
+
+const filteredUsers = (data || []).filter(
+  (profile) => !blockedIds.includes(profile.id)
+);
+
+setUsers(filteredUsers);
   }
 
   return (
