@@ -42,7 +42,14 @@ twitter: {
   title: 'Frame - Creative Network',
   description:
     'The creative network for photographers, artists and visual storytellers.',
-  images: ['/og-image.png'],
+   images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      alt: 'Frame Creative Network',
+    },
+  ],
 },
 
 };
