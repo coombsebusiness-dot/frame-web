@@ -3,6 +3,11 @@ import SharePostButton from '../../../components/SharePostButton';
 import { supabase } from '../../../lib/supabase';
 import Navbar from '../../../components/Navbar';
 import type { Metadata } from 'next';
+
+
+export const dynamic = 'force-dynamic';
+
+
 type PageProps = {
   params: Promise<{ id: string }>;
 };
