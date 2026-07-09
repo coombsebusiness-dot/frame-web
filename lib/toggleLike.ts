@@ -1,0 +1,42 @@
+import { supabase } from "@/lib/supabase";
+
+export async function toggleLike(postId: string) {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (userError || !userData.user) {
+    throw new Error("You must be signed in to like videos.");
+  }
+
+  const userId = userData.user.id;
+
+  const { data: existingLike, error: findError } = await supabase
+    .from("likes")
+    .select("id")
+    .eq("post_id", postId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (findError) {
+    throw findError;
+  }
+
+  if (existingLike) {
+    const { error } = await supabase
+      .from("likes")
+      .delete()
+      .eq("id", existingLike.id);
+
+    if (error) throw error;
+
+    return { liked: false };
+  }
+
+  const { error } = await supabase.from("likes").insert({
+    post_id: postId,
+    user_id: userId,
+  });
+
+  if (error) throw error;
+
+  return { liked: true };
+}
