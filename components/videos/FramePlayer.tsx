@@ -18,7 +18,7 @@ export default function FramePlayer({ videos }: { videos: VideoPost[] }) {
   }
 
   return (
-    <main className="h-screen overflow-y-scroll snap-y snap-mandatory scrollbar-hide bg-black text-white touch-pan-y overscroll-contain">
+    <main className="h-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide bg-black text-white touch-pan-y overscroll-contain">
       {videos.map((video) => (
         <FrameSlide key={video.id} video={video} />
       ))}

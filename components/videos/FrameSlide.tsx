@@ -40,7 +40,7 @@ export default function FrameSlide({ video }: { video: VideoPost }) {
   return (
     <section
       ref={slideRef}
-      className="flex h-screen snap-start items-center justify-center px-4 touch-pan-y"
+      className="flex h-full snap-start items-center justify-center px-4 touch-pan-y"
     >
       <div className="relative aspect-[9/16] h-[92vh] max-h-[820px] max-w-[430px] overflow-hidden rounded-[2rem] bg-black shadow-2xl">
         <FrameVideo ref={videoRef} video={video} />
