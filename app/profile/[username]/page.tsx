@@ -62,18 +62,20 @@ export default async function ProfilePage({ params }: PageProps) {
     .eq('username', username)
     .single();
 
-  if (!profile) {
-    return (
-      <main className="min-h-screen bg-black text-white">
-        <Navbar />
-        <div className="flex min-h-[70vh] items-center justify-center">
-          <h1>User not found</h1>
-        </div>
-      </main>
-    );
-  }
+ if (!profile) {
+  return (
+    <main className="min-h-screen bg-black text-white">
+      <Navbar />
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <h1>User not found</h1>
+      </div>
+    </main>
+  );
+}
 
-  const {
+const isGoldenCreator = profile.is_founding_creator === true;
+
+const {
   data: { user },
 } = await supabase.auth.getUser();
 
@@ -120,24 +122,84 @@ if (user) {
       <Navbar />
 
       <div className="mx-auto max-w-5xl px-6 py-10">
-        <div className="mb-12 flex flex-col items-center text-center">
-          {profile.avatar_url ? (
-            <img
-              src={profile.avatar_url}
-              alt={profile.display_name || profile.username}
-              className="h-32 w-32 rounded-full object-cover"
-            />
-          ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full bg-white/10 text-4xl">
-              {(profile.display_name || profile.username)?.charAt(0)}
-            </div>
-          )}
+       <div
+  className={`mb-12 flex flex-col items-center rounded-[2rem] border px-6 py-10 text-center transition-all ${
+    isGoldenCreator
+      ? 'border-yellow-400/70 bg-gradient-to-b from-yellow-400/[0.10] via-yellow-400/[0.03] to-transparent shadow-[0_0_40px_rgba(250,204,21,0.12)]'
+      : 'border-transparent'
+  }`}
+>
+         <div className="relative">
+  <div
+    className={`rounded-full p-1 ${
+      isGoldenCreator
+        ? "bg-gradient-to-br from-yellow-200 via-yellow-400 to-yellow-700 shadow-[0_0_28px_rgba(250,204,21,0.28)]"
+        : "bg-transparent"
+    }`}
+  >
+    {profile.avatar_url ? (
+      <img
+        src={profile.avatar_url}
+        alt={profile.display_name || profile.username}
+        className={`h-32 w-32 rounded-full object-cover ${
+          isGoldenCreator ? "border-4 border-black" : ""
+        }`}
+      />
+    ) : (
+      <div
+        className={`flex h-32 w-32 items-center justify-center rounded-full bg-white/10 text-4xl ${
+          isGoldenCreator ? "border-4 border-black" : ""
+        }`}
+      >
+        {(profile.display_name || profile.username)?.charAt(0)}
+      </div>
+    )}
+  </div>
+
+  {isGoldenCreator && (
+    <div className="absolute -bottom-2 -right-2 flex h-11 w-11 items-center justify-center rounded-full border-2 border-yellow-300 bg-black shadow-[0_0_18px_rgba(250,204,21,0.35)]">
+      <img
+        src="/assets/gold-frame-64.png"
+        alt="Golden Creator"
+        className="h-7 w-7 object-contain"
+      />
+    </div>
+  )}
+</div>
 
           <h1 className="mt-6 text-4xl font-bold">
             {profile.display_name || profile.username}
           </h1>
 
           <p className="mt-1 text-zinc-400">@{profile.username}</p>
+          {isGoldenCreator && (
+  <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-4 py-2">
+    <img
+      src="/assets/gold-frame-64.png"
+      alt=""
+      className="h-5 w-5 object-contain"
+    />
+
+    <span className="text-sm font-bold text-yellow-300">
+         Golden Creator
+    </span>
+  </div>
+)}
+
+{isGoldenCreator && (
+  <Link
+    href="/golden-creator-hub"
+    className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 px-6 py-3 text-sm font-black text-black shadow-[0_0_24px_rgba(250,204,21,0.22)] transition hover:scale-[1.02] hover:from-yellow-200 hover:to-yellow-400"
+  >
+    <img
+      src="/assets/gold-frame-64.png"
+      alt=""
+      className="h-5 w-5 object-contain"
+    />
+
+    Open Golden Creator Hub
+  </Link>
+)}
 
           <Link
   href="/edit-profile"
