@@ -10,6 +10,7 @@ export default function Navbar() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function loadUser() {
@@ -36,11 +37,15 @@ export default function Navbar() {
 
       const { data: profile } = await supabase
         .from('profiles')
-        .select('username')
+        .select('username, is_admin')
         .eq('id', data.user.id)
         .single();
 
-      if (profile?.username) setUsername(profile.username);
+      if (profile?.username) {
+  setUsername(profile.username);
+}
+
+setIsAdmin(profile?.is_admin || false);
     }
 
     loadUser();
@@ -56,6 +61,7 @@ export default function Navbar() {
     await supabase.auth.signOut();
     setUser(null);
     setUsername('');
+    setIsAdmin(false);
     window.location.href = '/';
   }
 
@@ -152,6 +158,14 @@ export default function Navbar() {
                 <Link href="/upload-story">Upload Story</Link>
                 <Link href="/messages">Messages</Link>
                 <Link href="/notifications">Notifications</Link>
+                {isAdmin && (
+  <Link
+    href="/admin"
+    className="font-bold text-yellow-400 hover:text-yellow-300"
+  >
+    Frame HQ
+  </Link>
+)}
                 {username && <Link href={`/profile/${username}`}>Profile</Link>}
                 <Link href="/settings">Settings</Link>
                 <button onClick={handleLogout} className="text-left">
@@ -161,6 +175,11 @@ export default function Navbar() {
             ) : (
               <>
                 <Link href="/login">Login</Link>
+                {isAdmin && (
+  <Link href="/admin" className="font-bold text-yellow-400">
+    Frame HQ
+  </Link>
+)}
                 <Link href="/signup">Sign Up</Link>
                 <a
                   href="https://apps.apple.com/app/frame-creative-network/id6777236011"

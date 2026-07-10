@@ -10,7 +10,7 @@ export default function HomePage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState('');
-  const [commentText, setCommentText] = useState('');
+  const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
   const [suggestedCreators, setSuggestedCreators] = useState<any[]>([]);
   const [feedMode, setFeedMode] = useState<'following' | 'forYou'>('following');
   const [stories, setStories] = useState<any[]>([]);
@@ -117,10 +117,12 @@ if (mode === 'following' && user) {
   .from('posts')
   .select(`
     *,
-    profiles!posts_user_id_fkey (
-      username,
-      display_name,
-      avatar_url
+   profiles!posts_user_id_fkey (
+  username,
+  display_name,
+  avatar_url,
+  is_founding_creator,
+  is_golden_creator
     ),
     likes (
       id,
@@ -197,18 +199,7 @@ setPosts(filteredPosts);
 async function toggleLike(postId: string) {
   if (!userId) return;
 
-  async function addComment(postId: string) {
-  if (!userId || !commentText.trim()) return;
-
-  await supabase.from('comments').insert({
-    user_id: userId,
-    post_id: postId,
-    body: commentText,
-  });
-
-  setCommentText('');
-  loadPosts();
-}
+ 
 
 
   const { data: existingLike } = await supabase
@@ -235,7 +226,9 @@ async function toggleLike(postId: string) {
   loadPosts();
 }
 async function addComment(postId: string) {
-  if (!userId || !commentText.trim()) return;
+  const commentText = commentDrafts[postId]?.trim();
+
+  if (!userId || !commentText) return;
 
   const { error } = await supabase.from('comments').insert({
     user_id: userId,
@@ -248,8 +241,12 @@ async function addComment(postId: string) {
     return;
   }
 
-  setCommentText('');
-  loadPosts();
+  setCommentDrafts((current) => ({
+    ...current,
+    [postId]: '',
+  }));
+
+  loadPosts(feedMode);
 }
     async function deletePost(postId: string) {
   const confirmed = window.confirm('Delete this post?');
@@ -445,14 +442,31 @@ console.log('Stories:', stories);
     )}
 
     <div>
-      <Link
-        href={`/profile/${post.profiles?.username}`}
-        className="font-semibold hover:underline"
-      >
-        {post.profiles?.display_name || post.profiles?.username || 'Frame User'}
-      </Link>
-      <p className="text-sm text-zinc-500">@{post.profiles?.username}</p>
-    </div>
+  <div className="flex items-center gap-2">
+    <Link
+      href={`/profile/${post.profiles?.username}`}
+      className="font-semibold hover:underline"
+    >
+      {post.profiles?.display_name ||
+        post.profiles?.username ||
+        "Frame User"}
+    </Link>
+
+    {(post.profiles?.is_founding_creator ||
+      post.profiles?.is_golden_creator) && (
+      <img
+        src="/assets/gold-frame-16.png"
+        alt="Golden Creator"
+        className="h-4 w-4 shrink-0"
+        draggable={false}
+      />
+    )}
+  </div>
+
+  <p className="text-sm text-zinc-500">
+    @{post.profiles?.username}
+  </p>
+</div>
   </div>
 
   <Link href={`/post/${post.id}`}>
@@ -514,10 +528,15 @@ console.log('Stories:', stories);
 </button>
 
    <div className="mt-3 flex items-end gap-2">
-  <textarea
+ <textarea
   placeholder="Write a comment..."
-  value={commentText}
-  onChange={(e) => setCommentText(e.target.value)}
+  value={commentDrafts[post.id] || ''}
+  onChange={(e) =>
+    setCommentDrafts((current) => ({
+      ...current,
+      [post.id]: e.target.value,
+    }))
+  }
   rows={2}
   className="flex-1 resize-none rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-white outline-none"
 />

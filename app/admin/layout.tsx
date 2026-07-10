@@ -1,46 +1,77 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+
 import CommandPalette from "../admin/CommandPalette";
 import NotificationBell from "../admin/NotificationBell";
 import CommandPaletteButton from "../admin/CommandPaletteButton";
 import AdminSidebar from "../admin/AdminSidebar";
-
-const navItems = [
-  ["Dashboard", "/admin"],
-  ["Users", "/admin/users"],
-  ["Applications", "/admin/applications"],
-  ["Creator Collective", "/admin/creator-collective"],
-  ["Reports", "/admin/reports"],
-  ["Posts", "/admin/posts"],
-  ["Videos", "/admin/videos"],
-  ["Stories", "/admin/stories"],
-  ["Analytics", "/admin/analytics"],
-  ["Announcements", "/admin/announcements"],
-  ["Competitions", "/admin/competitions"],
-  ["Creator Hub", "/admin/creator-hub"],
-  ["Feedback", "/admin/feedback"],
-  ["Settings", "/admin/settings"],
-];
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const [checkingAccess, setCheckingAccess] = useState(true);
+
+  useEffect(() => {
+    async function checkAdminAccess() {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        router.replace("/login");
+        return;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("is_admin")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError || !profile?.is_admin) {
+        router.replace("/");
+        return;
+      }
+
+      setCheckingAccess(false);
+    }
+
+    checkAdminAccess();
+  }, [router]);
+
+  if (checkingAccess) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <p className="text-sm font-bold uppercase tracking-[0.35em] text-yellow-400">
+            Frame HQ
+          </p>
+
+          <p className="mt-4 text-zinc-400">
+            Checking administrator access...
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
+        <aside className="flex min-h-screen flex-col border-r border-white/10 bg-zinc-950 px-6 py-8">
+          <AdminSidebar />
+        </aside>
 
-        {/* Sidebar */}
-       <aside className="flex min-h-screen flex-col border-r border-white/10 bg-zinc-950 px-6 py-8">
-    <AdminSidebar />
-</aside>
-
-        {/* Main Content */}
         <section className="px-8 py-8">
-
-          {/* Top Bar */}
           <div className="mb-10 flex items-center justify-between">
-
             <div>
               <p className="text-sm uppercase tracking-[0.35em] text-yellow-400">
                 Frame HQ
@@ -52,7 +83,6 @@ export default function AdminLayout({
             </div>
 
             <div className="flex items-center gap-4">
-
               <CommandPaletteButton />
 
               <NotificationBell />
@@ -76,17 +106,13 @@ export default function AdminLayout({
               >
                 Back to site
               </Link>
-
             </div>
-
           </div>
 
           <CommandPalette />
 
           {children}
-
         </section>
-
       </div>
     </main>
   );
