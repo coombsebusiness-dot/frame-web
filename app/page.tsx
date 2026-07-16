@@ -104,12 +104,7 @@ async function handleGoldenCreatorSubmit(
               Download Frame
             </Link>
 
-            <Link
-              href="/explore"
-              className="rounded-full border border-white/25 px-8 py-4 text-base font-bold text-white hover:bg-white/10"
-            >
-              Explore the Network
-            </Link>
+           
           </div>
         </div>
       </section>
