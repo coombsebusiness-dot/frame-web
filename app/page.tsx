@@ -58,7 +58,7 @@ async function handleGoldenCreatorSubmit(
           </Link>
 
           <div className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
-            <Link href="/explore" className="hover:text-white">Explore</Link>
+            
             <Link href="/login" className="hover:text-white">Login</Link>
             <Link
               href="https://apps.apple.com/app/frame-creative-network/id6777236011"
