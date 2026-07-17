@@ -503,51 +503,52 @@ console.log('Stories:', stories);
     ))}
   </div>
 )}
-<div className="border-t border-white/10 px-4 py-3">
-  <div className="mb-2 flex items-center gap-6 text-sm font-semibold text-zinc-200">
-   <button
-  onClick={() => toggleLike(post.id)}
-  className="hover:text-white"
->
-  {post.likes?.some((like: any) => like.user_id === userId)
-    ? '❤️ Liked'
-    : '🤍 Like'}
-</button>
-<button
-  onClick={() => sharePost(post.id)}
-  className="text-sm text-white/60 transition hover:text-white"
->
-  🔗 Share
-</button>
+<div className="border-t border-white/10 px-4 py-4">
+  <div className="mb-4 flex items-center gap-6 text-sm font-semibold text-zinc-200">
+    <button
+      onClick={() => toggleLike(post.id)}
+      className="hover:text-white"
+    >
+      {post.likes?.some((like: any) => like.user_id === userId)
+        ? '❤️ Liked'
+        : '🤍 Like'}
+    </button>
 
-<button
-  onClick={() => savePost(post.id)}
-  className="text-sm text-white/60 transition hover:text-white"
->
-  🔖 Save
-</button>
+    <button
+      onClick={() => sharePost(post.id)}
+      className="text-sm text-white/60 transition hover:text-white"
+    >
+      🔗 Share
+    </button>
 
-   <div className="mt-3 flex items-end gap-2">
- <textarea
-  placeholder="Write a comment..."
-  value={commentDrafts[post.id] || ''}
-  onChange={(e) =>
-    setCommentDrafts((current) => ({
-      ...current,
-      [post.id]: e.target.value,
-    }))
-  }
-  rows={2}
-  className="flex-1 resize-none rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-white outline-none"
-/>
+    <button
+      onClick={() => savePost(post.id)}
+      className="text-sm text-white/60 transition hover:text-white"
+    >
+      🔖 Save
+    </button>
+  </div>
 
-  <button
-    onClick={() => addComment(post.id)}
-    className="h-9 rounded-full bg-white px-4 text-sm font-semibold text-black hover:bg-zinc-200"
-  >
-    Post
-  </button>
-</div>
+  <div className="mx-auto flex w-full items-end gap-2">
+    <textarea
+      placeholder="Write a comment..."
+      value={commentDrafts[post.id] || ''}
+      onChange={(e) =>
+        setCommentDrafts((current) => ({
+          ...current,
+          [post.id]: e.target.value,
+        }))
+      }
+      rows={2}
+      className="min-w-0 flex-1 resize-none rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white outline-none focus:border-zinc-500"
+    />
+
+    <button
+      onClick={() => addComment(post.id)}
+      className="h-10 shrink-0 rounded-full bg-white px-5 text-sm font-semibold text-black hover:bg-zinc-200"
+    >
+      Post
+    </button>
   </div>
 
   <div className="text-sm text-zinc-400">
