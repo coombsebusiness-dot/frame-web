@@ -17,8 +17,14 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://frameapp.uk'),
 
   title: 'Frame - Creative Network',
+
   description:
     'Frame is a creative social network for photographers, artists, designers and visual creators.',
+
+  verification: {
+    google: 'KiLTgCkOd0eNC-ulD_qqpGr6kqpyLNcf2apx4UKM85U',
+  },
+
   openGraph: {
     title: 'Frame - Creative Network',
     description:
@@ -30,27 +36,28 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-      alt: 'Frame Creative Network',
-    },
-  ],
-  locale: 'en_GB',
-  type: 'website',
-},
+        alt: 'Frame Creative Network',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
 
-twitter: {
-  card: 'summary_large_image',
-  title: 'Frame - Creative Network',
-  description:
-    'The creative network for photographers, artists and visual storytellers.',
-   images: [
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Frame - Creative Network',
+    description:
+      'The creative network for photographers, artists and visual storytellers.',
+    images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-      alt: 'Frame Creative Network',
-    },
-  ],
-},
+        alt: 'Frame Creative Network',
+      },
+    ],
+  },
+
 
 };
 export default function RootLayout({

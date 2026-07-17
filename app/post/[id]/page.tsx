@@ -21,15 +21,14 @@ type FramePost = {
   created_at?: string;
   tags?: string[] | null;
 };
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
-
-  
 
   const { data: post } = await supabase
     .from('posts')
-    .select('id, image_url, caption, user_id')
+    .select('id, image_url, thumbnail_url, caption, user_id')
     .eq('id', id)
     .single();
 
@@ -53,42 +52,53 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description =
     post.caption || 'View this creative post on Frame.';
 
-  
+  const originalImage = post.thumbnail_url || post.image_url;
 
+  const imageUrl = originalImage?.startsWith('http')
+    ? originalImage
+    : `https://frameapp.uk${originalImage}`;
 
+  const postUrl = `https://frameapp.uk/post/${id}`;
 
-const imageUrl = post.image_url?.startsWith('http')
-  ? post.image_url
-  : `https://frameapp.uk${post.image_url}`;
-
-const postUrl = `https://frameapp.uk/post/${id}`;
-
-return {
-  metadataBase: new URL('https://frameapp.uk'),
-  title,
-  description,
-  openGraph: {
+  return {
+    metadataBase: new URL('https://frameapp.uk'),
     title,
     description,
-    url: postUrl,
-    siteName: 'Frame',
-    images: [
-      {
-        url: imageUrl,
-        width: 1200,
-        height: 630,
-        alt: title,
-      },
-    ],
-    type: 'article',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title,
-    description,
-    images: [imageUrl],
-  },
-};
+
+    alternates: {
+      canonical: postUrl,
+    },
+
+    openGraph: {
+      title,
+      description,
+      url: postUrl,
+      siteName: 'Frame',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      type: 'article',
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+  };
 }
 
 export default async function PostPage({ params }: PageProps) {
