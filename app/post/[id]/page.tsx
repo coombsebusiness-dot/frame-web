@@ -52,11 +52,7 @@ export async function generateMetadata({
   const description =
     post.caption || 'View this creative post on Frame.';
 
-  const originalImage = post.thumbnail_url || post.image_url;
-
-  const imageUrl = originalImage?.startsWith('http')
-    ? originalImage
-    : `https://frameapp.uk${originalImage}`;
+ const imageUrl = `https://frameapp.uk/api/og/post/${id}`;
 
   const postUrl = `https://frameapp.uk/post/${id}`;
 
